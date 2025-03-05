@@ -81,7 +81,7 @@ Parametri ottimali trovati:
 tx = -1.5355, ty = 4.0904, tz = 2.1963, theta_x = 0.0000, theta_y = -0.0000, theta_z = -0.0000, scale = 0.9945
 Valore finale di Mutual Information: -0.7756
 
-Ottimizzazione CPSO completata.
+- Ottimizzazione CPSO completata.
 Determinante della matrice di rotazione: 1.0000
 Mutual Information tra l'immagine fissa e quella registrata: -3.8866
 RMSE tra l'immagine fissa e quella registrata: 0.0022
