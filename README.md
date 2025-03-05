@@ -63,24 +63,49 @@ Le seguenti funzioni ausiliarie sono utilizzate all'interno degli script princip
 - **NIfTI Toolbox** (necessario per caricare i file `.nii.gz`)
   - [NIfTI Toolbox](https://www.mathworks.com/matlabcentral/fileexchange/2887-nifti-toolbox)
 
-## Esempio di Output
+## Risultati delle Ottimizzazioni: PSO vs CPSO
 
-Quando esegui uno degli script, vedrai in console i parametri ottimali trovati, nell'ultima run ho trovato questi risultati in modo da fare il confronto tra PSOe CPSO:
-- Risultati ottenuti con PSO:
-Parametri ottimali trovati:
-tx = 2.2445, ty = 5.0000, tz = -5.0000, theta_x = -0.0719, theta_y = 0.0008, theta_z = 0.2059, scale = 1.1000
-Valore finale di Mutual Information: 59.3230
+Quando esegui uno degli script, vedrai in console i parametri ottimali trovati. Nell'ultima esecuzione, sono stati ottenuti i seguenti risultati per il confronto tra l'algoritmo **PSO** (Particle Swarm Optimization) e **CPSO** (Constrained Particle Swarm Optimization):
 
-Ottimizzazione PSO completata.
-Determinante della matrice di rotazione: 0.5104
-Mutual Information tra l'immagine fissa e quella registrata: -3.9042
-RMSE tra l'immagine fissa e quella registrata: 75.1254
-- Risultati ottenuti con CPSO:
-Parametri ottimali trovati:
-tx = -1.5355, ty = 4.0904, tz = 2.1963, theta_x = 0.0000, theta_y = -0.0000, theta_z = -0.0000, scale = 0.9945
-Valore finale di Mutual Information: -0.7756
+### Risultati ottenuti con **PSO**:
+- **Parametri ottimali trovati**:
+  - tx = 2.2445
+  - ty = 5.0000
+  - tz = -5.0000
+  - theta_x = -0.0719
+  - theta_y = 0.0008
+  - theta_z = 0.2059
+  - scala = 1.1000
+  
+- **Valore finale di Mutual Information**: 59.3230
 
-Ottimizzazione CPSO completata.
-Determinante della matrice di rotazione: 1.0000
-Mutual Information tra l'immagine fissa e quella registrata: -3.8866
-RMSE tra l'immagine fissa e quella registrata: 0.0022
+- **Dettagli aggiuntivi**:
+  - Ottimizzazione PSO completata.
+  - Determinante della matrice di rotazione: 0.5104
+  - **Mutual Information** tra l'immagine fissa e quella registrata: -3.9042
+  - **RMSE** tra l'immagine fissa e quella registrata: 75.1254
+
+---
+
+### Risultati ottenuti con **CPSO**:
+- **Parametri ottimali trovati**:
+  - tx = -1.5355
+  - ty = 4.0904
+  - tz = 2.1963
+  - theta_x = 0.0000
+  - theta_y = -0.0000
+  - theta_z = -0.0000
+  - scala = 0.9945
+
+- **Valore finale di Mutual Information**: -0.7756
+
+- **Dettagli aggiuntivi**:
+  - Ottimizzazione CPSO completata.
+  - Determinante della matrice di rotazione: 1.0000
+  - **Mutual Information** tra l'immagine fissa e quella registrata: -3.8866
+  - **RMSE** tra l'immagine fissa e quella registrata: 0.0022
+
+---
+
+Questi risultati mostrano i parametri ottimali trovati dai due algoritmi, evidenziando le differenze nei valori di **Mutual Information** e **RMSE**, oltre ai dettagli sulla matrice di rotazione e sul determinante, utili per il confronto delle performance.
+
