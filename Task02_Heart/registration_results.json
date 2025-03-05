@@ -1,0 +1,9 @@
+[
+    {
+        "image": "./Task02_Heart/imagesTr/la_023.nii.gz",
+        "label": "./Task02_Heart/labelsTr/la_023.nii.gz",
+        "best_params": 43568.046261373565,
+        "best_cost": -14.636839713647674,
+        "dice_score": 0.0
+    }
+]
