@@ -65,7 +65,7 @@ Le seguenti funzioni ausiliarie sono utilizzate all'interno degli script princip
 
 ## Risultati delle Ottimizzazioni: PSO vs CPSO
 
-Quando esegui uno degli script, vedrai in console i parametri ottimali trovati. Nell'ultima esecuzione, sono stati ottenuti i seguenti risultati per il confronto tra l'algoritmo **PSO** (Particle Swarm Optimization) e **CPSO** (Constrained Particle Swarm Optimization):
+Quando esegui uno degli script, vedrai in console i parametri ottimali trovati. Nell'ultima esecuzione, sono stati ottenuti i seguenti risultati per il confronto tra l'algoritmo **PSO** (Particle Swarm Optimization) e **CPSO** (Continuous Particle Swarm Optimization):
 
 ### Risultati ottenuti con **PSO**:
 - **Parametri ottimali trovati**:
