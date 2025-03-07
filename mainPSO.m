@@ -112,14 +112,3 @@ function e = rmse_control_points(fixedSize, params, cb_ref)
     diff = cp_moving - cb_ref;
     e = sqrt(mean(sum(diff.^2, 2)));
 end
-
-%%
-
-% Parametri ottimali trovati:
-% tx = 2.2445, ty = 5.0000, tz = -5.0000, theta_x = -0.0719, theta_y = 0.0008, theta_z = 0.2059, scale = 1.1000
-% Valore finale di Mutual Information: 59.3230
-% 
-% Ottimizzazione PSO completata.
-% Determinante della matrice di rotazione: 0.5104
-% Mutual Information tra l'immagine fissa e quella registrata: -3.9042
-% RMSE tra l'immagine fissa e quella registrata: 75.1254
