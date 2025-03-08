@@ -4,19 +4,16 @@ clc
 
 fprintf("Inizio codice...\n");
 
-% Caricamento delle immagini MRI 3D
 fprintf("Caricamento immagini...\n");
 fixedImageStruct = nii_tool('load', 'Task02_Heart/imagesTr/la_019.nii.gz');
 movingImageStruct = nii_tool('load', 'Task02_Heart/labelsTr/la_019.nii.gz');
 
-% Conversione in double
 fixedImage = double(fixedImageStruct.img);
 movingImage = double(movingImageStruct.img);
 
 fixedImage = imgaussfilt3(fixedImage, 1);
 movingImage = imgaussfilt3(movingImage, 1);
 
-% Controllo dimensioni
 fprintf("Dimensioni immagine fissa: [%d %d %d]\n", size(fixedImage));
 fprintf("Dimensioni immagine mobile: [%d %d %d]\n", size(movingImage));
 
@@ -24,60 +21,82 @@ if any(size(fixedImage) ~= size(movingImage))
     error('Le dimensioni delle immagini fissa e mobile non corrispondono!');
 end
 
-% Definizione punti di controllo di riferimento
 cb_ref = [floor(size(fixedImage,1)/5), floor(size(fixedImage,2)/5), floor(size(fixedImage,3)/5);
           floor(size(fixedImage,1)/5), floor(size(fixedImage,2)/5*4), floor(size(fixedImage,3)/5*4);
           floor(size(fixedImage,1)/5*4), floor(size(fixedImage,2)/5), floor(size(fixedImage,3)/5);
           floor(size(fixedImage,1)/5*4), floor(size(fixedImage,2)/5*4), floor(size(fixedImage,3)/5*4)];
 
-% Definizione dei limiti per i parametri di trasformazione
 lb = [-5, -5, -5, -pi/2, -pi/2, -pi/2, 0.9];  
 ub = [5, 5, 5, pi/2, pi/2, pi/2, 1.1];
 
-alpha = 0.2; % Valore all'interno dell'intervallo [0, 1] per pesare l'errore
+alpha = 0.2;
 
-% Funzione obiettivo
 objective = @(params) objective_function(params, fixedImage, movingImage, alpha, cb_ref);
+particles = 200;
+sub_interval = 300;
+dt = 10;
 
-% Opzioni per il CPSO
-options =  optimoptions("particleswarm", "Display","iter","MaxStallIterations",3,SwarmSize=200,MaxIterations=300,SocialAdjustmentWeight=3.05,SelfAdjustmentWeight=2.05);
+options =  optimoptions("particleswarm", ...
+    "Display","iter", SwarmSize=200, MaxIterations=300, MaxStallTime=3,SocialAdjustmentWeight=2.05, SelfAdjustmentWeight=3.05);
+
+monte_carlo_run = 10;
 
 fprintf("Avvio ottimizzazione PSO...\n");
 
-% Esegui l'ottimizzazione
-[optimal_params, optimal_value, execution_time] = particleswarm(objective, 7, lb, ub, options);
+optimal_params_all = zeros(monte_carlo_run, 7);
+optimal_values_all = zeros(monte_carlo_run, 1);
+mi_values_all = zeros(monte_carlo_run, 1);
+rmse_values_all = zeros(monte_carlo_run, 1);
 
-fprintf('\n\nParametri ottimali trovati:\n');
-fprintf('tx = %.4f, ty = %.4f, tz = %.4f, theta_x = %.4f, theta_y = %.4f, theta_z = %.4f, scale = %.4f\n', optimal_params);
-fprintf('Valore finale di Mutual Information: %.4f\n', optimal_value);
+for i = 1:monte_carlo_run
+    [optimal_params, optimal_value] = particleswarm(objective, 7, lb, ub, options);
+    
+    optimal_params_all(i, :) = optimal_params;
+    optimal_values_all(i) = optimal_value;
+    
+    fprintf('\n\nIterazione %d:', i);
+    fprintf('Parametri ottimali trovati:');
+    fprintf('tx = %.4f, ty = %.4f, tz = %.4f, theta_x = %.4f, theta_y = %.4f, theta_z = %.4f, scale = %.4f\n', optimal_params);
+    fprintf('Valore finale di Mutual Information: %.7g\n', optimal_value);
+    
+    fprintf('\nOttimizzazione PSO completata.\n');
+    
+    T_final = create_transformation_matrix(optimal_params(1), optimal_params(2), optimal_params(3), optimal_params(4), optimal_params(5), optimal_params(6), optimal_params(7));
+    
+    fprintf('Determinante della matrice di rotazione: %.7g\n', det(T_final(1:3,1:3)));
+    
+    tform = affine3d(T_final);
+    movingRegistered = imwarp(movingImage, tform, 'OutputView', imref3d(size(fixedImage)));
 
-fprintf("\nOttimizzazione PSO completata.\n");
+%     figure; sliceViewer(fixedImage); title('Immagine Fissa');
+%     figure; sliceViewer(movingImage); title('Immagine Mobile');
+%     figure; sliceViewer(movingRegistered); title('Immagine Registrata');
 
-% Creazione della matrice di trasformazione ottimale
-T_final = create_transformation_matrix(optimal_params(1), optimal_params(2), optimal_params(3), optimal_params(4), optimal_params(5), optimal_params(6), optimal_params(7));
+    mi_value = mutual_information(fixedImage, movingRegistered);
+    rmse_value = rmse_control_points(size(fixedImage), optimal_params, cb_ref);
+    
+    mi_values_all(i) = mi_value;
+    rmse_values_all(i) = rmse_value;
+    
+    fprintf('Mutual Information tra l immagine fissa e quella registrata: %.7g\n', mi_value);
+    fprintf('RMSE tra l immagine fissa e quella registrata: %.7g\n', rmse_value);
+end
 
-% Verifica del determinante della matrice di rotazione
-fprintf("Determinante della matrice di rotazione: %.4f\n", det(T_final(1:3,1:3)));
+data_struct = struct('lb', lb, ...
+    'ub', ub, ...
+    'optimal_params_all', optimal_params_all, 'optimal_values_all', optimal_values_all, ...
+    'mi_values_all', mi_values_all, 'rmse_values_all', rmse_values_all);
 
-tform = affine3d(T_final);
-movingRegistered = imwarp(movingImage, tform, 'OutputView', imref3d(size(fixedImage)));
 
-% Visualizzazione
-figure; sliceViewer(fixedImage); title('Immagine Fissa');
-figure; sliceViewer(movingImage); title('Immagine Mobile');
-figure; sliceViewer(movingRegistered); title('Immagine Registrata');
-
-% Calcolo della Mutual Information
-mi_value = mutual_information(fixedImage, movingRegistered);
-fprintf('Mutual Information tra l\''immagine fissa e quella registrata: %.4f\n', mi_value);
-
-% Calcolo del RMSE
-rmse_value = rmse_control_points(size(fixedImage), optimal_params, cb_ref);
-fprintf('RMSE tra l\''immagine fissa e quella registrata: %.4f\n', rmse_value);
+json_text = jsonencode(data_struct);
+fid = fopen('monte_carlo_results_pso.json', 'w');
+if fid == -1
+    error('Impossibile aprire il file per la scrittura.');
+end
+fwrite(fid, json_text, 'char');
+fclose(fid);
 
 fprintf('\nFine codice\n\n');
-
-%% Funzioni ausiliarie
 
 function score = objective_function(params, fixedImage, movingImage, alpha, cb_ref)
     rmse_score = rmse_control_points(size(fixedImage), params, cb_ref);
