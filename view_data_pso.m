@@ -5,11 +5,9 @@ clc;
 jsonData = fileread('monte_carlo_results_pso.json');
 data = jsondecode(jsonData);
 
-data
+monte_carlo_run = length(data.optimal_values_all);
 
-monte_carlo_run = length(data.optimal_params_all);
-
-% Boxplot dei parametri ottimali
+% Parametri ottimali
 figure;
 boxplot(data.optimal_params_all, ...
     'Labels', {'tx', 'ty', 'tz', 'theta_x', 'theta_y', 'theta_z', 'scale'});
@@ -33,18 +31,24 @@ title('Evoluzione dei parametri ottimali tra le simulazioni');
 legend({'tx', 'ty', 'tz', 'theta_x', 'theta_y', 'theta_z', 'scale'}, 'Location', 'best');
 grid on;
 
+
+% Grafico della fitness
+figure;
+bar(data.optimal_values_all, 'FaceColor', 'm');
+xlabel('Simulazione');
+ylabel('Miglior valore di fitness');
+title('Andamento della fitness per ogni simulazione');
+grid on;
+
+% Grafico dell'errore
 figure;
 hold on;
-opt_val = size(data.optimal_values_all, 2);
-colors = lines(monte_carlo_run);
-x = 1:monte_carlo_run; 
-
-bar(x, data.optimal_values_all);
-xticks(x);
-
+bar(data.rmse_values_all);
 hold off;
 xlabel('Simulazione');
-ylabel('Ottimo determinato');
-title('Grafico del miglior valore di fitness');
+ylabel('RMSE');
+title('Evoluzione del valore di RMSE');
 grid on;
+
+
 

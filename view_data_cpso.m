@@ -22,7 +22,7 @@ title('Convergenza della funzione obiettivo');
 legend(arrayfun(@(x) sprintf('Run %d', x), 1:monte_carlo_run, 'UniformOutput', false));
 grid on;
 
-% Boxplot dei parametri ottimali
+% Parametri ottimali
 figure;
 boxplot(data.optimal_params_all, ...
     'Labels', {'tx', 'ty', 'tz', 'theta_x', 'theta_y', 'theta_z', 'scale'});
@@ -46,10 +46,31 @@ title('Evoluzione dei parametri ottimali tra le simulazioni');
 legend({'tx', 'ty', 'tz', 'theta_x', 'theta_y', 'theta_z', 'scale'}, 'Location', 'best');
 grid on;
 
-% Bar chart del tempo di esecuzione per ogni simulazione
+% Tempo di esecuzione per ogni simulazione
 figure;
 bar(data.execution_times_all, 'FaceColor', 'm');
 xlabel('Simulazione');
 ylabel('Tempo di esecuzione (s)');
 title('Tempo di esecuzione per ogni simulazione');
 grid on;
+
+% Grafico della fitness
+figure;
+bar(data.optimal_values_all, 'FaceColor', 'm');
+xlabel('Simulazione');
+ylabel('Miglior valore di fitness');
+title('Andamento della fitness per ogni simulazione');
+grid on;
+
+% Grafico dell'errore
+figure;
+hold on;
+bar(data.rmse_values_all);
+hold off;
+xlabel('Simulazione');
+ylabel('RMSE');
+title('Evoluzione del valore di RMSE');
+grid on;
+
+
+
