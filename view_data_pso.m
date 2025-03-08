@@ -5,6 +5,8 @@ clc;
 jsonData = fileread('monte_carlo_results_pso.json');
 data = jsondecode(jsonData);
 
+data
+
 monte_carlo_run = length(data.optimal_values_all);
 
 % Parametri ottimali
