@@ -81,8 +81,11 @@ Esempi di output delle ottimizzazioni:
 
 ### 🔹 **CPSO**
 - **Mutual Information:** `-0.7756`
-- **RMSE:** `0.0022`
+- **RMSE:** `0.0000`
 - **Determinante Matrice Rotazione:** `1.0000`
+
+Con le analisi svolte il CPSO batte il PSO in termini di precisione quindi **Mutual Information** in termini di **RMSE** ma non riesce ancora a convergere più velocemente.
+Ps: Solo perchè il PSO non riesce a muoversi dal minimo locale dato dall'entropia
 
 ---
 
