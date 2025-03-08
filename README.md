@@ -1,111 +1,128 @@
-# 3D MRI image registration
+# 3D MRI Image Registration
 
-Questo progetto si concentra su 3D image registration tramite l'ottimizzazione dei parametri di trasformazione, utilizzando il Particle Swarm Optimization (PSO) e CPSO (Continuous Particle Swarm Optimization). Le immagini MRI 3D vengono registrate (allineate) con l'ausilio di algoritmi di ottimizzazione e calcolo della **Mutual Information** e **RMSE**.
+## Introduzione
+
+Questo progetto riguarda la registrazione di immagini MRI 3D tramite ottimizzazione dei parametri di trasformazione con **Particle Swarm Optimization (PSO)** e **Continuous Particle Swarm Optimization (CPSO)**. Il processo include il calcolo della **Mutual Information (MI)** e del **Root Mean Squared Error (RMSE)** per valutare la qualità della registrazione.
+
+---
 
 ## Descrizione
 
-Il codice carica due immagini MRI (una "fissa" e una "mobile") in formato NIfTI (`.nii.gz`), le converte in formato numerico, le pre-elabora applicando un filtro gaussiano, e poi applica una trasformazione affine per registrare l'immagine mobile sull'immagine fissa. L'ottimizzazione avviene mediante **PSO** e **CPSO**. Dopo l'ottimizzazione, le immagini vengono visualizzate e viene calcolata la **Mutual Information** e il **Root Mean Squared Error (RMSE)** per verificare la qualità della registrazione.
+Il codice:
+- Carica due immagini MRI in formato **NIfTI (.nii.gz)** (una fissa e una mobile).
+- Le converte in formato numerico e applica un **filtro gaussiano**.
+- Utilizza **PSO** e **CPSO** per ottimizzare una **trasformazione affine**.
+- Calcola e visualizza i risultati di **Mutual Information** e **RMSE**.
+
+---
 
 ## Requisiti
 
-- MATLAB (versione 2020 o successiva)
-- **Image Processing Toolbox** per la gestione delle immagini.
-- **NIfTI Toolbox** per il caricamento e la gestione dei file NIfTI (è necessario scaricare il toolbox NIfTI per MATLAB).
-- **CPSO**.
+- **MATLAB** (versione 2020 o successiva).
+- **Image Processing Toolbox**.
+- **NIfTI Toolbox** per MATLAB ([link](https://www.mathworks.com/matlabcentral/fileexchange/2887-nifti-toolbox)).
+- **CPSO** (implementato nel codice).
+
+---
 
 ## File Principali
 
-### 1. **mainCPSO.m**
-Questo script applica la registrazione delle immagini 3D utilizzando CPSO. Le immagini vengono caricate, pre-processate e successivamente ottimizzate con un algoritmo CPSO.
+### 📌 `mainCPSO.m`
+Esegue la registrazione utilizzando **CPSO** con:
+- Caricamento e pre-processing delle immagini.
+- Ottimizzazione dei parametri di trasformazione.
+- Calcolo di **Mutual Information** e **RMSE**.
 
-### 2. **mainPSO.m**
-Questo script esegue una registrazione delle immagini utilizzando PSO (Particle Swarm Optimization) e applica la stessa metodologia di trasformazione affine, ma con un diverso algoritmo di ottimizzazione rispetto al CPSO.
+### 📌 `mainPSO.m`
+Simile a `mainCPSO.m`, ma utilizza **PSO** invece di **CPSO**.
 
-### 3. **Funzioni ausiliarie**
-Le seguenti funzioni ausiliarie sono utilizzate all'interno degli script principali:
+### 📌 Funzioni ausiliarie
+- **`objective_function.m`** → Funzione obiettivo per l'ottimizzazione.
+- **`create_transformation_matrix.m`** → Costruisce la matrice di trasformazione affine.
+- **`mutual_information.m`** → Calcola la **Mutual Information**.
+- **`rmse_control_points.m`** → Calcola **RMSE** usando punti di controllo.
+- **`rmse.m`** → Calcola **RMSE** tra le immagini.
 
-- `objective_function`: Calcola la funzione obiettivo che combina **Mutual Information** e **RMSE** tra le immagini fissa e mobile.
-- `create_transformation_matrix`: Crea una matrice di trasformazione affine basata sui parametri ottimizzati.
-- `mutual_information`: Calcola la **Mutual Information** tra due immagini.
-- `rmse_control_points`: Calcola l'**RMSE** utilizzando i punti di controllo definiti.
-- `rmse`: Calcola l'**RMSE** tra due immagini.
+---
 
-## Come Usare
+## 🚀 Come Usare
 
-1. **Preparazione dell'ambiente**:
-   - Assicurati di avere **MATLAB** installato.
-   - Installa la **Image Processing Toolbox**.
-   - Scarica e aggiungi alla tua cartella di lavoro il toolbox **NIfTI** per MATLAB.
-   
-2. **Caricamento delle Immagini**:
-   - Sostituisci i percorsi delle immagini NIfTI (file `.nii.gz`) all'interno degli script:
+1. **Configurazione dell'Ambiente**
+   - Installare **MATLAB** e i toolbox richiesti.
+   - Aggiungere il toolbox **NIfTI** alla cartella di lavoro.
+
+2. **Caricamento delle Immagini**
+   - Modificare i percorsi delle immagini nei file `.m`:
      ```matlab
      fixedImageStruct = nii_tool('load', 'Task02_Heart/imagesTr/la_019.nii.gz');
      movingImageStruct = nii_tool('load', 'Task02_Heart/labelsTr/la_019.nii.gz');
      ```
 
-3. **Esecuzione dello Script**:
-   - Esegui uno degli script nel tuo ambiente MATLAB (es. `RegistrazioneMRI_CPSO.m` o `RegistrazioneMRI_PSO.m`).
-   - Lo script avvierà il processo di registrazione delle immagini e l'ottimizzazione.
-   
-4. **Visualizzazione dei Risultati**:
-   - Dopo che il processo di ottimizzazione è completato, le immagini saranno visualizzate:
-     - **Immagine fissa**
-     - **Immagine mobile**
-     - **Immagine registrata**
+3. **Esecuzione dello Script**
+   - Eseguire `mainCPSO.m` o `mainPSO.m` in MATLAB:
+     ```matlab
+     run('mainCPSO.m');
+     ```
 
-5. **Output**:
-   - I parametri ottimali della trasformazione affine saranno stampati sulla console.
-   - Il valore della **Mutual Information** e dell'**RMSE** tra l'immagine fissa e quella registrata sarà calcolato e mostrato.
-
-## Dipendenze
-
-- **NIfTI Toolbox** (necessario per caricare i file `.nii.gz`)
-  - [NIfTI Toolbox](https://www.mathworks.com/matlabcentral/fileexchange/2887-nifti-toolbox)
-
-## Risultati delle Ottimizzazioni: PSO vs CPSO
-
-Quando esegui uno degli script, vedrai in console i parametri ottimali trovati. Nell'ultima esecuzione, sono stati ottenuti i seguenti risultati per il confronto tra l'algoritmo **PSO** (Particle Swarm Optimization) e **CPSO** (Continuous Particle Swarm Optimization):
-
-### Risultati ottenuti con **PSO**:
-- **Parametri ottimali trovati**:
-  - tx = 2.2445
-  - ty = 5.0000
-  - tz = -5.0000
-  - theta_x = -0.0719
-  - theta_y = 0.0008
-  - theta_z = 0.2059
-  - scala = 1.1000
-  
-- **Valore finale di Mutual Information**: 59.3230
-
-- **Dettagli aggiuntivi**:
-  - Ottimizzazione PSO completata.
-  - Determinante della matrice di rotazione: 0.5104
-  - **Mutual Information** tra l'immagine fissa e quella registrata: -3.9042
-  - **RMSE** tra l'immagine fissa e quella registrata: 75.1254
+4. **Visualizzazione dei Risultati**
+   - MATLAB mostrerà le immagini fisse, mobili e registrate.
+   - Verranno stampati i valori ottimizzati e le metriche di qualità.
 
 ---
 
-### Risultati ottenuti con **CPSO**:
-- **Parametri ottimali trovati**:
-  - tx = -1.5355
-  - ty = 4.0904
-  - tz = 2.1963
-  - theta_x = 0.0000
-  - theta_y = -0.0000
-  - theta_z = -0.0000
-  - scala = 0.9945
+## 📊 Analisi dei Risultati
 
-- **Valore finale di Mutual Information**: -0.7756
+Esempi di output delle ottimizzazioni:
 
-- **Dettagli aggiuntivi**:
-  - Ottimizzazione CPSO completata.
-  - Determinante della matrice di rotazione: 1.0000
-  - **Mutual Information** tra l'immagine fissa e quella registrata: -3.8866
-  - **RMSE** tra l'immagine fissa e quella registrata: 0.0022
+### 🔹 **PSO**
+- **Mutual Information:** `59.3230`
+- **RMSE:** `75.1254`
+- **Determinante Matrice Rotazione:** `0.5104`
+
+### 🔹 **CPSO**
+- **Mutual Information:** `-0.7756`
+- **RMSE:** `0.0022`
+- **Determinante Matrice Rotazione:** `1.0000`
 
 ---
 
-Questi risultati mostrano i parametri ottimali trovati dai due algoritmi, evidenziando le differenze nei valori di **Mutual Information** e **RMSE**, oltre ai dettagli sulla matrice di rotazione e sul determinante, utili per il confronto delle performance.
+## 📈 Visualizzazione Dati
+
+Il file `monte_carlo_results_cpso.json` viene generato per analisi successive.
+
+Per visualizzare i risultati in MATLAB:
+```matlab
+jsonData = fileread('monte_carlo_results_cpso.json');
+data = jsondecode(jsonData);
+```
+
+### 🔹 **Grafico della Convergenza**
+```matlab
+figure;
+for i = 1:length(data.execution_times_all)
+    plot(data.convergence_all{i}, 'LineWidth', 1.5);
+end
+xlabel('Iterazioni'); ylabel('Funzione Obiettivo');
+title('Convergenza della Funzione Obiettivo');
+grid on;
+```
+
+### 🔹 **Distribuzione dei Parametri Ottimali**
+```matlab
+figure;
+boxplot(data.optimal_params_all, 'Labels', {'tx', 'ty', 'tz', 'θx', 'θy', 'θz', 'scale'});
+title('Distribuzione dei Parametri Ottimali');
+grid on;
+```
+
+---
+
+## 📌 Conclusione
+
+Il progetto confronta PSO e CPSO per la registrazione di immagini MRI 3D, mostrando i vantaggi dell'ottimizzazione continua sui parametri di trasformazione affine. 
+
+---
+
+### 📩 Contatti
+Per domande o suggerimenti, contattare: [iacuzzogiovanni@gmail.com](mailto:iacuzzogiovanni@gmail.com)
 
