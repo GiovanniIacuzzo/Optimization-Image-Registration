@@ -8,9 +8,10 @@ data = jsondecode(jsonData);
 data
 
 monte_carlo_run = length(data.execution_times_all);
+output_folder = 'Risultati';
 
 % Grafico della convergenza della funzione obiettivo
-figure;
+fig = figure;
 hold on;
 for i = 1:monte_carlo_run
     plot(data.convergence_all{i}, 'LineWidth', 1.5);
@@ -18,21 +19,22 @@ end
 hold off;
 xlabel('Iterazioni');
 ylabel('Valore della Funzione Obiettivo');
-title('Convergenza della funzione obiettivo');
 legend(arrayfun(@(x) sprintf('Run %d', x), 1:monte_carlo_run, 'UniformOutput', false));
 grid on;
+saveas(fig, fullfile(output_folder, 'convergenza_funzione_obiettivo_cpso.png'));
+close(fig);
 
 % Parametri ottimali
-figure;
-boxplot(data.optimal_params_all, ...
-    'Labels', {'tx', 'ty', 'tz', 'theta_x', 'theta_y', 'theta_z', 'scale'});
+fig = figure;
+boxplot(data.optimal_params_all, 'Labels', {'tx', 'ty', 'tz', 'theta_x', 'theta_y', 'theta_z', 'scale'});
 xlabel('Parametri');
 ylabel('Valori Ottimali');
-title('Distribuzione dei parametri ottimali');
 grid on;
+saveas(fig, fullfile(output_folder, 'distribuzione_parametri_ottimali_cpso.png'));
+close(fig);
 
 % Evoluzione dei parametri ottimali tra le simulazioni
-figure;
+fig = figure;
 hold on;
 num_params = size(data.optimal_params_all, 2);
 colors = lines(num_params);
@@ -42,35 +44,42 @@ end
 hold off;
 xlabel('Simulazione');
 ylabel('Valore del parametro');
-title('Evoluzione dei parametri ottimali tra le simulazioni');
 legend({'tx', 'ty', 'tz', 'theta_x', 'theta_y', 'theta_z', 'scale'}, 'Location', 'best');
 grid on;
+saveas(fig, fullfile(output_folder, 'evoluzione_parametri_ottimali_cpso.png'));
+close(fig);
 
 % Tempo di esecuzione per ogni simulazione
-figure;
+fig = figure;
 bar(data.execution_times_all, 'FaceColor', 'm');
 xlabel('Simulazione');
 ylabel('Tempo di esecuzione (s)');
-title('Tempo di esecuzione per ogni simulazione');
 grid on;
+saveas(fig, fullfile(output_folder, 'tempo_esecuzione_cpso.png'));
+close(fig);
 
 % Grafico della fitness
-figure;
+fig = figure;
 bar(data.optimal_values_all, 'FaceColor', 'm');
 xlabel('Simulazione');
 ylabel('Miglior valore di fitness');
-title('Andamento della fitness per ogni simulazione');
 grid on;
+saveas(fig, fullfile(output_folder, 'andamento_fitness_cpso.png'));
+close(fig);
 
 % Grafico dell'errore
-figure;
+fig = figure;
 hold on;
 bar(data.rmse_values_all);
 hold off;
 xlabel('Simulazione');
 ylabel('RMSE');
-title('Evoluzione del valore di RMSE');
 grid on;
+saveas(fig, fullfile(output_folder, 'evoluzione_rmse_cpso.png'));
+close(fig);
 
+results_table = table((1:monte_carlo_run)', data.execution_times_all, data.optimal_values_all, data.rmse_values_all, ...
+    'VariableNames', {'Simulazione', 'TempoEsecuzione', 'ValoreFitness', 'RMSE'});
 
+writetable(results_table, fullfile(output_folder, 'risultati_simulazioni_cpso.csv'));
 
