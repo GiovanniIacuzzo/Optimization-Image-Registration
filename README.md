@@ -72,10 +72,17 @@ Simile a `mainCPSO.m`, ma utilizza **PSO** invece di **CPSO**.
 
 ## 📊 Analisi dei Risultati
 
-![Andamento Fitness CPSO](Risultati/andamento_fitness_cpso.png)
-![Andamento Fitness CPSO](Risultati/andamento_fitness_pso.png)
+   - Grafico andamento della Fitness del CPSO:
+![Andamento Fitness CPSO](Risultati/convergenza_funzione_obiettivo_cpso.png)
 
-Ps: Solo perchè il PSO non riesce a muoversi dal minimo locale dato dall'entropia
+   - Grafico andamento della Fitness del CPSO:
+![Andamento Fitness CPSO](Risultati/andamento_fitness_cpso.png)
+   - Grafico andamento della Fitness del PSO:
+![Andamento Fitness CPSO](Risultati/andamento_fitness_pso.png)
+   - Grafico andamento dell'errore del CPSO:
+![Andamento Fitness CPSO](Risultati/evoluzione_rmse_cpso.png)
+   - Grafico andamento dell'errore del PSO:
+![Andamento Fitness CPSO](Risultati/evoluzione_rmse_pso.png)
 
 ---
 
