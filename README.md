@@ -72,7 +72,7 @@ Simile a `mainCPSO.m`, ma utilizza **PSO** invece di **CPSO**.
 
 ## 📊 Analisi dei Risultati
 
-   - Grafico andamento della Fitness del CPSO:
+   - Grafico di convergenza della fnzione obiettivo CPSO:
 ![Andamento Fitness CPSO](Risultati/convergenza_funzione_obiettivo_cpso.png)
 
    - Grafico andamento della Fitness del CPSO:
