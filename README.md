@@ -72,19 +72,9 @@ Simile a `mainCPSO.m`, ma utilizza **PSO** invece di **CPSO**.
 
 ## 📊 Analisi dei Risultati
 
-Esempi di output delle ottimizzazioni:
+![Andamento Fitness CPSO](Risultati/andamento_fitness_cpso.png)
+![Andamento Fitness CPSO](Risultati/andamento_fitness_pso.png)
 
-### 🔹 **PSO**
-- **Mutual Information:** `59.3230`
-- **RMSE:** `75.1254`
-- **Determinante Matrice Rotazione:** `0.5104`
-
-### 🔹 **CPSO**
-- **Mutual Information:** `-0.7756`
-- **RMSE:** `0.0000`
-- **Determinante Matrice Rotazione:** `1.0000`
-
-Con le analisi svolte il CPSO batte il PSO in termini di precisione quindi **Mutual Information** in termini di **RMSE** ma non riesce ancora a convergere più velocemente.
 Ps: Solo perchè il PSO non riesce a muoversi dal minimo locale dato dall'entropia
 
 ---
