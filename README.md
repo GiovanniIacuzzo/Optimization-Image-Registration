@@ -124,5 +124,5 @@ Il progetto confronta PSO e CPSO per la registrazione di immagini MRI 3D, mostra
 ---
 
 ### 📩 Contatti
-Per domande o suggerimenti, contattare: [iacuzzogiovanni@gmail.com](mailto:iacuzzogiovanni@gmail.com)
+Per domande o suggerimenti, contattare: [iacuzzogiovanni@gmail.com](mailto:giovanni.iacuzzo@unikorestudent.it)
 
