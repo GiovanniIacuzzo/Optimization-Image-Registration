@@ -35,6 +35,7 @@ function [bestPosition, bestValue, execution_time, convergence] = CPSO(objective
     Cognitive_constant = options.Cognitive_constant;
     Social_constant = options.Social_constant;
     maxNoChange = options.maxNoChange;
+    tol = 1e-3;
 
     % Imposta limiti di variabili e velocità
     if isscalar(lb)
@@ -97,7 +98,7 @@ function [bestPosition, bestValue, execution_time, convergence] = CPSO(objective
         BestCost(it) = GlobalBest.Cost;
 
         % Controlla interruzione
-        if it > 1 && BestCost(it) == BestCost(it - 1)
+        if it > 1 && abs(BestCost(it) - BestCost(it - 1)) < tol
             noChangeCount = noChangeCount + 1;
         else
             noChangeCount = 0;
