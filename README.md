@@ -73,16 +73,16 @@ Simile a `mainCPSO.m`, ma utilizza **PSO** invece di **CPSO**.
 ## 📊 Analisi dei Risultati
 
    - Grafico di convergenza della fnzione obiettivo CPSO:
-![Andamento Fitness CPSO](Risultati/convergenza_funzione_obiettivo_cpso.png)
+![Andamento Fitness CPSO](Risultati/convergenza_CPSO.png)
 
    - Grafico andamento della Fitness del CPSO:
-![Andamento Fitness CPSO](Risultati/andamento_fitness_cpso.png)
+![Andamento Fitness CPSO](Risultati/fitness_CPSO.png)
    - Grafico andamento della Fitness del PSO:
-![Andamento Fitness CPSO](Risultati/andamento_fitness_pso.png)
+![Andamento Fitness PSO](Risultati/fitness_PSO.png)
    - Grafico andamento dell'errore del CPSO:
-![Andamento Fitness CPSO](Risultati/evoluzione_rmse_cpso.png)
+![Andamento RMSE CPSO](Risultati/RMSE_CPSO.png)
    - Grafico andamento dell'errore del PSO:
-![Andamento Fitness CPSO](Risultati/evoluzione_rmse_pso.png)
+![Andamento RMSE PSO](Risultati/RMSE_PSO.png)
 
 ---
 
