@@ -126,7 +126,6 @@ Il progetto confronta PSO e CPSO per la registrazione di immagini MRI 3D, mostra
 ## 📎 Licenza
 
 Questo progetto è distribuito con licenza [MIT](LICENSE).  
-Se utilizzi il codice, ricorda di citare gli autori originali.  
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
